@@ -1,66 +1,36 @@
 # 🚓 Sistema de Checklist de Viaturas
 
-<p align="center">
-
-![Python](https://img.shields.io/badge/Python-3.x-blue?style=for-the-badge\&logo=python)
-![Django](https://img.shields.io/badge/Django-Framework-green?style=for-the-badge\&logo=django)
-![Bootstrap](https://img.shields.io/badge/Bootstrap-5-purple?style=for-the-badge\&logo=bootstrap)
-![GitHub](https://img.shields.io/badge/GitHub-Repository-black?style=for-the-badge\&logo=github)
-
-</p>
+Sistema web desenvolvido em **Django** para controle e registro de **checklist de viaturas policiais**, permitindo registrar condições da viatura, anexar fotos e gerar relatórios em PDF.
 
 ---
 
-## 📖 Sobre o Projeto
+## 📋 Funcionalidades
 
-Sistema web desenvolvido com **Django** para gerenciamento de **checklists de viaturas**, permitindo registrar inspeções operacionais, anexar fotos e gerar relatórios em PDF.
-
-O sistema foi criado para **controle operacional de viaturas**, garantindo rastreabilidade das inspeções realizadas pelos policiais.
-
----
-
-# 🎥 Demonstração do Sistema
-
-<p align="center">
-<img src="docs/sistema.gif" width="800">
-</p>
+* Cadastro de viaturas
+* Cadastro de policiais
+* Registro de checklist diário
+* Upload de múltiplas fotos
+* Extração de metadados das imagens
+* Visualização das fotos do checklist
+* Geração de relatório em PDF
+* Controle de acesso por usuário
+* Painel administrativo
 
 ---
 
-# 📸 Telas do Sistema
-
-### 🔐 Login
-
-<img src="docs/login.png" width="800">
-
-### 🚓 Cadastro de Viatura
-
-<img src="docs/viaturas.png" width="800">
-
-### 📋 Checklist
-
-<img src="docs/checklist.png" width="800">
-
-### 📄 Relatório PDF
-
-<img src="docs/pdf.png" width="800">
-
----
-
-# ⚙️ Tecnologias Utilizadas
+## 🛠 Tecnologias utilizadas
 
 * Python
 * Django
 * Bootstrap
-* PostgreSQL
+* SQLite
 * HTML5
 * CSS3
 * JavaScript
-* ReportLab (PDF)
 
 ---
 
-# 📂 Estrutura do Projeto
+## 📂 Estrutura do Projeto
 
 ```
 checklist_viaturas/
@@ -72,65 +42,62 @@ checklist_viaturas/
 │   ├── models.py
 │   ├── views.py
 │   ├── urls.py
-│   └── admin.py
+│   ├── admin.py
+│   └── templates/
 │
-├── templates/
 ├── static/
 ├── media/
-├── docs/
-│
-└── README.md
 ```
 
 ---
 
-# ⚙️ Instalação
+## ⚙️ Instalação
 
-Clone o projeto:
+Clone o repositório:
 
-```
+```bash
 git clone https://github.com/tidinho/checklist_viaturas.git
 ```
 
 Entre na pasta:
 
-```
+```bash
 cd checklist_viaturas
 ```
 
 Crie ambiente virtual:
 
-```
+```bash
 python3 -m venv venv
 ```
 
-Ative o ambiente:
+Ative:
 
-```
+```bash
 source venv/bin/activate
 ```
 
 Instale dependências:
 
-```
+```bash
 pip install -r requirements.txt
 ```
 
 Execute migrações:
 
-```
+```bash
 python manage.py migrate
 ```
 
-Crie administrador:
+Crie um superusuário:
 
-```
+```bash
 python manage.py createsuperuser
 ```
 
 Inicie o servidor:
 
-```
+```bash
 python manage.py runserver
 ```
 
@@ -142,77 +109,48 @@ http://127.0.0.1:8000
 
 ---
 
-# 📄 Relatórios
+## 📸 Funcionalidades do Checklist
 
-O sistema gera **relatórios em PDF contendo:**
+O sistema permite registrar:
 
-* Informações da viatura
-* Dados do checklist
-* Fotos anexadas
-* Data e hora da inspeção
+* Quilometragem
+* Combustível
+* Estado geral da viatura
+* Fotos da inspeção
+* Data e hora do registro
 * Policial responsável
 
 ---
 
-# 🚀 Deploy
+## 📄 Relatórios
 
-O projeto pode ser publicado em:
+O sistema gera **relatórios em PDF contendo:**
 
-* Render
-* Railway
-* Heroku
-* VPS Linux
-
-Execução em produção:
-
-```
-gunicorn checklist_viaturas.wsgi
-```
+* Dados da viatura
+* Informações do checklist
+* Fotos anexadas
+* Data e usuário responsável
 
 ---
 
-# 📊 Estatísticas do GitHub
+## 🔒 Controle de acesso
 
-<p align="center">
+O sistema possui:
 
-<img height="180em" src="https://github-readme-stats.vercel.app/api?username=tidinho&show_icons=true&theme=tokyonight"/>
-
-<img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=tidinho&layout=compact&theme=tokyonight"/>
-
-</p>
+* Login de usuário
+* Permissões administrativas
+* Controle de acesso aos módulos
 
 ---
 
-# 🛣 Roadmap
+## 👨‍💻 Autor
 
-Melhorias planejadas:
+Desenvolvido por **Tidinho**
 
-* Dashboard com gráficos
-* API REST
-* Aplicativo Mobile
-* Geolocalização das fotos
+Sistema para controle operacional de viaturas.
 
 ---
 
-# 👨‍💻 Autor
-
-**Tidinho**
-
-Projeto desenvolvido para **controle operacional de viaturas e inspeções policiais**.
-
----
-
-# ⭐ Contribuição
-
-Contribuições são bem-vindas.
-
-1. Faça um fork
-2. Crie uma branch
-3. Commit suas mudanças
-4. Abra um Pull Request
-
----
-
-# 📜 Licença
+## 📜 Licença
 
 Projeto de uso interno.
