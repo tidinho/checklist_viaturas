@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Cadastro de Viaturas</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body class="bg-light">
+
+<!-- MENU PADRÃO DO SISTEMA -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<div class="container">
+
+<a class="navbar-brand" href="{% url 'viaturas' %}">🚓 Sistema de Viaturas</a>
+
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+<span class="navbar-toggler-icon"></span>
+</button>
+
+<div class="collapse navbar-collapse" id="menu">
+
+<ul class="navbar-nav ms-auto">
+
+{% if user.is_staff %}
+<li class="nav-item">
+<a class="nav-link" href="{% url 'viaturas' %}">
+🚓 Viaturas
+</a>
+</li>
+{% endif %}
+
+<li class="nav-item">
+<a class="nav-link" href="{% url 'checklist' %}">
+📋 Checklist
+</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link text-danger" href="{% url 'logout' %}">
+🚪 Sair
+</a>
+</li>
+
+</ul>
+
+</div>
+</div>
+</nav>
+
+
+<div class="container py-4">
+
+<h1 class="mb-4 text-center">🚓 Cadastro de Viaturas</h1>
+
+<!-- MENSAGENS DO DJANGO -->
+{% if messages %}
+{% for message in messages %}
+
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+{{ message }}
+<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+
+{% endfor %}
+{% endif %}
+
+<div class="row justify-content-center">
+<div class="col-md-6">
+
+<div class="card shadow mb-4">
+<div class="card-body">
+
+<form method="post" enctype="multipart/form-data">
+
+{% csrf_token %}
+
+<div class="mb-3">
+<label class="form-label"><strong>Modelo</strong></label>
+{{ form.modelo }}
+</div>
+
+<div class="mb-3">
+<label class="form-label"><strong>Prefixo</strong></label>
+{{ form.prefixo }}
+</div>
+
+<div class="mb-3">
+<label class="form-label"><strong>Placa</strong></label>
+{{ form.placa }}
+</div>
+
+<div class="mb-3">
+<label class="form-label"><strong>KM</strong></label>
+{{ form.km }}
+</div>
+
+<div class="mb-3">
+<label class="form-label"><strong>Foto</strong></label>
+{{ form.foto }}
+</div>
+
+<div class="d-grid">
+<button type="submit" class="btn btn-primary">
+Salvar Viatura
+</button>
+</div>
+
+</form>
+
+</div>
+</div>
+
+</div>
+</div>
+
+<h2 class="mb-3">Viaturas cadastradas</h2>
+
+<div class="card shadow">
+<div class="card-body">
+
+<div class="table-responsive">
+
+<table class="table table-striped table-hover align-middle">
+
+<thead class="table-dark">
+<tr>
+
+<th>Modelo</th>
+<th>Prefixo</th>
+<th>Placa</th>
+<th>KM</th>
+<th>Foto</th>
+<th>Ações</th>
+
+</tr>
+</thead>
+
+<tbody>
+
+{% for v in viaturas %}
+
+<tr>
+
+<td>{{ v.modelo }}</td>
+<td>{{ v.prefixo }}</td>
+<td>{{ v.placa }}</td>
+<td>{{ v.km }}</td>
+
+<td>
+{% if v.foto %}
+<img src="{{ v.foto.url }}" class="img-fluid rounded" style="max-width:100px;">
+{% else %}
+<span class="text-muted">Sem foto</span>
+{% endif %}
+</td>
+
+<td>
+
+<a href="{% url 'editar_viatura' v.id %}" class="btn btn-warning btn-sm">
+✏️ Editar
+</a>
+
+<a href="{% url 'excluir_viatura' v.id %}" class="btn btn-danger btn-sm">
+🗑 Excluir
+</a>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+<nav class="mt-4">
+<ul class="pagination justify-content-center">
+
+{% if viaturas.has_previous %}
+<li class="page-item">
+<a class="page-link" href="?page={{ viaturas.previous_page_number }}">
+Anterior
+</a>
+</li>
+{% endif %}
+
+<li class="page-item active">
+<span class="page-link">
+Página {{ viaturas.number }} de {{ viaturas.paginator.num_pages }}
+</span>
+</li>
+
+{% if viaturas.has_next %}
+<li class="page-item">
+<a class="page-link" href="?page={{ viaturas.next_page_number }}">
+Próxima
+</a>
+</li>
+{% endif %}
+
+</ul>
+</nav>
+
+</div>
+</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

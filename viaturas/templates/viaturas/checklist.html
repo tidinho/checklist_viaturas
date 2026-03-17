@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Checklist de Viatura</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body class="bg-light">
+
+<!-- MENU PADRÃO DO SISTEMA -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<div class="container">
+
+<a class="navbar-brand" href="{% url 'viaturas' %}">🚓 Sistema de Viaturas</a>
+
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+<span class="navbar-toggler-icon"></span>
+</button>
+
+<div class="collapse navbar-collapse" id="menu">
+
+<ul class="navbar-nav ms-auto">
+
+{% if user.is_staff %}
+<li class="nav-item">
+<a class="nav-link" href="{% url 'viaturas' %}">
+🚓 Viaturas
+</a>
+</li>
+{% endif %}
+
+<li class="nav-item">
+<a class="nav-link" href="{% url 'checklist' %}">
+📋 Checklist
+</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link text-danger" href="{% url 'logout' %}">
+🚪 Sair
+</a>
+</li>
+
+</ul>
+
+</div>
+</div>
+</nav>
+
+
+<div class="container py-4">
+
+<h1 class="text-center mb-4">📋 Checklist de Viatura</h1>
+
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+{{ message }}
+<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+{% endfor %}
+{% endif %}
+
+<div class="card shadow mb-4">
+<div class="card-body">
+
+<form method="post" enctype="multipart/form-data">
+
+{% csrf_token %}
+
+<div class="mb-3">
+<label class="form-label"><strong>Viatura</strong></label>
+{{ form.viatura }}
+</div>
+
+<hr>
+
+<div class="row">
+
+{% for field in form %}
+{% if field.name != "viatura" %}
+
+<div class="col-md-6 mb-3">
+
+<p class="fw-bold">{{ field.label }}</p>
+
+{% if field.name == "km_atual" or field.name == "km_troca_oleo" %}
+
+{{ field }}
+
+{% else %}
+
+{% for choice in field.field.choices %}
+
+<div class="form-check form-check-inline">
+
+<input class="form-check-input"
+type="radio"
+id="{{ field.name }}_{{ forloop.counter }}"
+name="{{ field.name }}"
+value="{{ choice.0 }}"
+{% if field.value == choice.0 %}checked{% endif %}>
+
+<label class="form-check-label" for="{{ field.name }}_{{ forloop.counter }}">
+{{ choice.1 }}
+</label>
+
+</div>
+
+{% endfor %}
+
+{% endif %}
+
+</div>
+
+{% endif %}
+{% endfor %}
+
+</div>
+
+<hr>
+
+<h2>Fotos do Veículo (até 10)</h2>
+
+<p class="text-muted">
+Insira imagens das seguintes partes do veículo:<br>
+
+Traseira, Frontal, Lateral esquerda, Lateral direita,<br>
+
+Pneu dianteiro direito, Pneu dianteiro esquerdo,<br>
+
+Pneu traseiro direito, Pneu traseiro esquerdo,<br>
+
+Estepe, Motor, Painel e Odômetro.
+</p>
+
+<input type="file"
+       name="fotos"
+       multiple
+       accept="image/*"
+       class="form-control">
+
+<br>
+
+<button class="btn btn-primary">
+Salvar Checklist
+</button>
+
+</form>
+
+</div>
+</div>
+
+<h2 class="mb-3">Checklists Realizados</h2>
+
+<div class="card shadow">
+<div class="card-body">
+
+<div class="table-responsive">
+
+<table class="table table-striped table-hover table-bordered align-middle">
+
+<thead class="table-dark">
+
+<tr>
+<th>Modelo</th>
+<th>Prefixo</th>
+<th>Placa</th>
+<th>KM Atual</th>
+<th>KM Troca Óleo</th>
+<th>Troca Óleo</th>
+<th>Triângulo</th>
+<th>Chave de Roda</th>
+<th>Estepe</th>
+<th>Kit Ferramenta</th>
+<th>Macaco</th>
+<th>Extintor</th>
+<th>Baterias</th>
+<th>Cartão Abastecimento</th>
+<th>Sistema Iluminação</th>
+<th>Sistema Sinalização</th>
+<th>Retrovisores</th>
+<th>Estribo</th>
+<th>Intermitente</th>
+<th>Rádio Comunicação</th>
+<th>Tapetes</th>
+<th>Equipamento Som</th>
+<th>Quebra Mato</th>
+<th>Cinto Segurança</th>
+<th>Direção</th>
+<th>Calotas</th>
+<th>Palheta Limpador</th>
+<th>Painel</th>
+<th>Ignição</th>
+<th>Ar Condicionado</th>
+<th>Manuais</th>
+<th>Sistema Motor</th>
+<th>Sistema Injeção</th>
+<th>Sistema Refrigeração</th>
+<th>Chave Ignição</th>
+<th>Botões Vidro</th>
+<th>Tablet</th>
+<th>Drive</th>
+<th>Data</th>
+<th>Fotos</th>
+<th>PDF</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for c in checklists %}
+
+<tr>
+
+<td>{{ c.viatura.modelo }}</td>
+<td>{{ c.viatura.prefixo }}</td>
+<td>{{ c.viatura.placa }}</td>
+
+<td>{{ c.km_atual }}</td>
+<td>{{ c.km_troca_oleo }}</td>
+<td>{{ c.troca_oleo }}</td>
+
+<td>{{ c.triangulo }}</td>
+<td>{{ c.chave_roda }}</td>
+<td>{{ c.estepe }}</td>
+<td>{{ c.kit_ferramenta_estepe }}</td>
+<td>{{ c.macaco }}</td>
+<td>{{ c.extintor }}</td>
+<td>{{ c.baterias }}</td>
+<td>{{ c.cartao_abastecimento }}</td>
+<td>{{ c.sistema_iluminacao }}</td>
+<td>{{ c.sistema_sinalizacao }}</td>
+<td>{{ c.retrovisores }}</td>
+<td>{{ c.estribo }}</td>
+<td>{{ c.intermitente }}</td>
+<td>{{ c.radio_comunicacao }}</td>
+<td>{{ c.tapetes }}</td>
+<td>{{ c.equipamento_som }}</td>
+<td>{{ c.quebra_mato }}</td>
+<td>{{ c.cinto_seguranca }}</td>
+<td>{{ c.direcao }}</td>
+<td>{{ c.calotas }}</td>
+<td>{{ c.palheta_limpador }}</td>
+<td>{{ c.painel }}</td>
+<td>{{ c.ignicao }}</td>
+<td>{{ c.ar_condicionado }}</td>
+<td>{{ c.manuais }}</td>
+<td>{{ c.sistema_motor }}</td>
+<td>{{ c.sistema_injecao }}</td>
+<td>{{ c.sistema_refrigeracao }}</td>
+<td>{{ c.chave_ignicao }}</td>
+<td>{{ c.botoes_vidro }}</td>
+<td>{{ c.tablet }}</td>
+<td>{{ c.drive }}</td>
+<td>{{ c.data|date:"d/m/Y H:i" }}</td>
+
+<td>
+{% for foto in c.fotos.all %}
+<a href="{% url 'metadados_foto' foto.id %}">
+<img src="{{ foto.imagem.url }}"
+class="img-thumbnail"
+style="max-width:60px; margin:2px; cursor:pointer;">
+</a>
+{% endfor %}
+</td>
+
+<td>
+<a href="{% url 'gerar_pdf' c.id %}" class="btn btn-danger btn-sm">
+📄 PDF
+</a>
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
