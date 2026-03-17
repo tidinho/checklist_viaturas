@@ -52,7 +52,7 @@ O sistema foi criado para **controle operacional de viaturas**, garantindo rastr
 * Python
 * Django
 * Bootstrap
-* SQLite
+* PostgreSQL
 * HTML5
 * CSS3
 * JavaScript
@@ -188,7 +188,6 @@ gunicorn checklist_viaturas.wsgi
 Melhorias planejadas:
 
 * Dashboard com gráficos
-* Banco PostgreSQL
 * API REST
 * Aplicativo Mobile
 * Geolocalização das fotos
